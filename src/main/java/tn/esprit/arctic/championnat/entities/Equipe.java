@@ -3,6 +3,8 @@ package tn.esprit.arctic.championnat.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -17,4 +19,10 @@ public class Equipe {
     private String libelle;
     private Integer nbPointsTotal;
     private Integer classementGeneral;
+
+    @OneToMany(mappedBy = "equipe", cascade = CascadeType.ALL)
+    private Set<Pilote> pilotes;
+
+    @OneToMany(mappedBy = "equipe", cascade = CascadeType.ALL)
+    private Set<Contrat> contrats;
 }

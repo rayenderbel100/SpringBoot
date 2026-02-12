@@ -1,10 +1,9 @@
 package tn.esprit.arctic.championnat.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,4 +21,12 @@ public class Championnat {
 
     private String libelleC;
     private Integer annee;
+
+    // OneToOne avec DetailChampionnat
+    @OneToOne(cascade = CascadeType.ALL)
+    private DetailChampionnat detailChampionnat;
+
+    // OneToMany avec Course
+    @OneToMany(mappedBy = "championnat", cascade = CascadeType.ALL)
+    private Set<Course> courses;
 }

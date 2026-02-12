@@ -8,16 +8,19 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Contrat {
 
     @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY )
-    private long idContrat;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idContrat;
+
     private Float montant;
     private String annee;
     private Boolean archived;
 
+    @ManyToOne
+    private Equipe equipe;
 
-
+    @ManyToOne
+    private Sponsor sponsor;
 }
