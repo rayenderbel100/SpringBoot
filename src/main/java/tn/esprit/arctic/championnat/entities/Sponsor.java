@@ -3,24 +3,34 @@ package tn.esprit.arctic.championnat.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Sponsor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSponsor;
 
     private String nom;
+
     private String pays;
+
     private Float budgetAnnuel;
+
     private Boolean bloquerContrat;
 
-    @OneToMany(mappedBy = "sponsor", cascade = CascadeType.ALL)
-    private Set<Contrat> contrats;
+    Boolean archived;
+
+    LocalDate dateCreation;
+
+    LocalDate dateDerniereModification;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy="Sponsor")
+    private List<Contrat> contrats;
 }
+
