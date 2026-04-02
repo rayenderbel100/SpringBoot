@@ -17,6 +17,12 @@ public class PiloteService implements IPiloteService {
     }
 
     @Override
+    public String addPilote(Pilote p) {
+        Pilote saved = pr.save(p);
+        return "Pilote ajouté avec succès, idPilote=" + saved.getIdPilote();
+    }
+
+    @Override
     public Pilote ajouterPilote(Pilote pilote) {
         return pr.save(pilote);
     }

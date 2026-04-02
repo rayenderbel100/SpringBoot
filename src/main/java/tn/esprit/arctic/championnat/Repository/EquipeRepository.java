@@ -5,3 +5,5 @@ import tn.esprit.arctic.championnat.entities.Equipe;
 
 public interface EquipeRepository extends JpaRepository<Equipe, Long> {
 }
+
+

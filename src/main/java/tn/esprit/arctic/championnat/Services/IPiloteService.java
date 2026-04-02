@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface IPiloteService {
 
+    String addPilote(Pilote p);
+
     Pilote ajouterPilote(Pilote pilote);
 
     List<Pilote> ajouterPilotes(List<Pilote> pilotes);
