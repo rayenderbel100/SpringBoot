@@ -18,4 +18,6 @@ public interface IPiloteService {
     List<Pilote> listPilotes();
 
     Pilote recupererPilote(Long idPilote);
+
+    void mettreAJourPointsEtClassement();
 }

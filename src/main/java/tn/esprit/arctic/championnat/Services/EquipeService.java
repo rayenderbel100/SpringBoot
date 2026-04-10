@@ -45,4 +45,9 @@ public class EquipeService implements IEquipeService {
     public Equipe recupererEquipe(Long idEquipe) {
         return er.findById(idEquipe).orElse(null);
     }
+
+    @Override
+    public List<Equipe> listeEquipesContratSuperieurAXEtPiloteEnTop3(Float montantContrat) {
+        return er.listeEquipesContratSuperieurAXEtPiloteEnTop3(montantContrat);
+    }
 }

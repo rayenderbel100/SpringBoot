@@ -21,9 +21,7 @@ public interface ISponsorService {
 
     Boolean archiverSponsor(Long idSponsor);
 
+    Float pourcentageBudgetAnnuelConsomme(Long idSponsor);
 
-
-
-
-
+    void afficherEtVerifierSponsorsBudget();
 }

@@ -16,4 +16,6 @@ public interface IEquipeService {
     List<Equipe> listEquipes();
 
     Equipe recupererEquipe(Long idEquipe);
+
+    List<Equipe> listeEquipesContratSuperieurAXEtPiloteEnTop3(Float montantContrat);
 }
