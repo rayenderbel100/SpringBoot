@@ -2,20 +2,28 @@ package tn.esprit.arctic.championnat.Services;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import tn.esprit.arctic.championnat.DTO.PiloteDto;
+import tn.esprit.arctic.championnat.Repository.ChampionnatRepository;
 import tn.esprit.arctic.championnat.Repository.PiloteRepository;
+import tn.esprit.arctic.championnat.entities.Championnat;
+import tn.esprit.arctic.championnat.entities.Course;
 import tn.esprit.arctic.championnat.entities.Pilote;
+import tn.esprit.arctic.championnat.entities.Position;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PiloteService implements IPiloteService {
 
     PiloteRepository pr;
+    ChampionnatRepository cr;
 
     // constructeur pour injection
-    public PiloteService(PiloteRepository pr) {
+    public PiloteService(PiloteRepository pr, ChampionnatRepository cr) {
         this.pr = pr;
+        this.cr = cr;
     }
 
     @Override
@@ -94,5 +102,32 @@ public class PiloteService implements IPiloteService {
             }
         }
         pr.saveAll(sortedPilotes);
+    }
+
+    @Override
+    public List<PiloteDto> listeWinners(Integer annee) {
+        List<PiloteDto> winners = new ArrayList<>();
+        List<Championnat> championnats = cr.findByAnneeGreaterThan(annee);
+
+        for (Championnat ch : championnats) {
+            if (ch.getCourses() != null) {
+                for (Course course : ch.getCourses()) {
+                    if (course.getPositions() != null) {
+                        for (Position pos : course.getPositions()) {
+                            if (pos.getClassement() != null && pos.getClassement() == 1) {
+                                Pilote pilote = pos.getPilote();
+                                PiloteDto dto = new PiloteDto();
+                                dto.setLibelleP(pilote.getLibelleP());
+                                dto.setNbPointsTotal(pilote.getNbPointsTotal());
+                                dto.setLibelleC(ch.getLibelleC());
+                                winners.add(dto);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return winners;
     }
 }

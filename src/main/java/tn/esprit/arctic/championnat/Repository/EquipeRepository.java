@@ -11,6 +11,6 @@ public interface EquipeRepository extends JpaRepository<Equipe, Long> {
 
     @Query("SELECT DISTINCT e FROM Equipe e JOIN e.contrats c JOIN e.pilotes p WHERE c.montant > :montantContrat AND p.classementGeneral <= 3")
     List<Equipe> listeEquipesContratSuperieurAXEtPiloteEnTop3(@Param("montantContrat") Float montantContrat);
+
+    Equipe findByLibelle(String libelle);
 }
-
-

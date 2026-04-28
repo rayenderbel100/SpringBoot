@@ -2,6 +2,7 @@ package tn.esprit.arctic.championnat.Controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.arctic.championnat.DTO.PiloteDto;
 import tn.esprit.arctic.championnat.Services.IPiloteService;
 import tn.esprit.arctic.championnat.entities.Pilote;
 
@@ -55,5 +56,10 @@ public class PiloteController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(p);
+    }
+
+    @GetMapping("/winners/{annee}")
+    public ResponseEntity<List<PiloteDto>> listeWinners(@PathVariable Integer annee) {
+        return ResponseEntity.ok(piloteService.listeWinners(annee));
     }
 }

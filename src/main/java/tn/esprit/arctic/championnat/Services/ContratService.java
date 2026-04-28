@@ -3,8 +3,13 @@ package tn.esprit.arctic.championnat.Services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import tn.esprit.arctic.championnat.DTO.ContratDto;
 import tn.esprit.arctic.championnat.Repository.ContratRepository;
+import tn.esprit.arctic.championnat.Repository.EquipeRepository;
+import tn.esprit.arctic.championnat.Repository.SponsorRepository;
 import tn.esprit.arctic.championnat.entities.Contrat;
+import tn.esprit.arctic.championnat.entities.Equipe;
+import tn.esprit.arctic.championnat.entities.Sponsor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,9 +19,15 @@ import java.util.List;
 public class ContratService implements IContratService {
 
     private final ContratRepository contratRepository;
+    private final EquipeRepository equipeRepository;
+    private final SponsorRepository sponsorRepository;
 
-    public ContratService(ContratRepository contratRepository) {
+    public ContratService(ContratRepository contratRepository,
+                          EquipeRepository equipeRepository,
+                          SponsorRepository sponsorRepository) {
         this.contratRepository = contratRepository;
+        this.equipeRepository = equipeRepository;
+        this.sponsorRepository = sponsorRepository;
     }
 
     @Override
@@ -43,5 +54,26 @@ public class ContratService implements IContratService {
                         equipeLibelle, c.getMontant(), sponsorNom);
             }
         }
+    }
+
+    @Override
+    public ContratDto ajoutContratEtAffecterASponsorEtEquipe(Contrat contrat, String libelleEquipe,
+                                                              String nomSponsor, String pays) {
+        Equipe equipe = equipeRepository.findByLibelle(libelleEquipe);
+        Sponsor sponsor = sponsorRepository.findByNomAndPays(nomSponsor, pays);
+
+        contrat.setEquipe(equipe);
+        contrat.setSponsor(sponsor);
+        Contrat savedContrat = contratRepository.save(contrat);
+
+        // Mapping manuel vers ContratDto
+        ContratDto dto = new ContratDto();
+        dto.setIdContrat(savedContrat.getIdContrat());
+        dto.setMontant(savedContrat.getMontant());
+        dto.setAnnee(savedContrat.getAnnee());
+        dto.setLibelleEquipe(equipe != null ? equipe.getLibelle() : null);
+        dto.setNomSponsor(sponsor != null ? sponsor.getNom() : null);
+
+        return dto;
     }
 }

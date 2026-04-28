@@ -1,5 +1,6 @@
 package tn.esprit.arctic.championnat.Services;
 
+import tn.esprit.arctic.championnat.DTO.PiloteDto;
 import tn.esprit.arctic.championnat.entities.Pilote;
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface IPiloteService {
     Pilote recupererPilote(Long idPilote);
 
     void mettreAJourPointsEtClassement();
+
+    List<PiloteDto> listeWinners(Integer annee);
 }
